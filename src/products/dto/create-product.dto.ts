@@ -1,9 +1,12 @@
-import { IsString, MinLength, IsNumber, IsPositive, IsOptional, IsInt, IsArray, IsIn } from 'class-validator';
+import {
+    IsString, MinLength, IsNumber,
+    IsPositive, IsOptional, IsInt, IsArray, IsIn
+} from 'class-validator';
 
 export class CreateProductDto {
 
     @IsString()
-    @MinLength(3)
+    @MinLength(1)
     title: string;
 
     @IsNumber()
@@ -31,4 +34,13 @@ export class CreateProductDto {
     @IsIn(['men', 'women', 'kid', 'unisex'])
     gender: string;
 
+    @IsString({ each: true })
+    @IsArray()
+    @IsOptional()
+    tags: string[];
+
+    @IsString({ each: true })
+    @IsArray()
+    @IsOptional()
+    images?: string[];
 }
