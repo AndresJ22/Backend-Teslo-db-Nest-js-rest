@@ -86,9 +86,8 @@ export class ProductsService {
       ...toUpdate,
     });
 
-    if(!product){
-      throw new NotFoundException(`Product with id ${id} not found`);
-    }
+    if(!product) throw new NotFoundException(`Product with id ${id} not found`);
+    
     // create query runner
     const queryRunner = this.dataSource.createQueryRunner();
     await queryRunner.connect();
