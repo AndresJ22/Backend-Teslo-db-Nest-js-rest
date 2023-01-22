@@ -34,19 +34,23 @@ export class AuthService {
   }
 
   async login(loginUserDto: LoginUserDto) {
+    console.log(loginUserDto)
     const { email, password } = loginUserDto;
     const user = await this.userRepository.findOne({ 
       where: { email },
       select: [ "email", "password","id"]
     });
+   // console.log(user)
     if (!user) {
       throw new UnauthorizedException("Invalid credentials");
     }
+    console.log(user.password)
     const isPasswordValid = await bcrypt.compare(password, user.password);
+
     if (!isPasswordValid) {
+      console.log("Invalid credentials")
       throw new BadRequestException("Invalid credentials");
     }
-    delete user.id;
     delete user.password;
     return {
       ...user,
@@ -58,6 +62,18 @@ export class AuthService {
     };
   }
   
+  async checkAuthStatus(user: User) {
+    const { products,roles,isActive,...resto } = user;
+    console.log(resto)
+    return {
+      ...resto,
+      token: this.getJwtToken(
+        {
+          id: user.id
+        })
+    };
+  }
+
   private getJwtToken(payload: JwtPayload) {
     const token = this.jwtService.sign(payload);
     return token;
