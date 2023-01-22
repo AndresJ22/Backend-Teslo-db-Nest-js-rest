@@ -5,7 +5,9 @@ import { FilesService } from './files.service';
 import { FileInterceptor } from '@nestjs/platform-express/multer';
 import { createReadStream } from 'fs';
 import { ConfigService } from '@nestjs/config';
+import { ApiTags } from '@nestjs/swagger/dist';
 
+@ApiTags('Files')
 @Controller('files')
 export class FilesController {
   constructor(
