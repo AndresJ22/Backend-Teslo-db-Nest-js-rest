@@ -12,10 +12,14 @@ import { JwtPayload } from './interfaces/jwt-payload.interface';
 
 @Injectable()
 export class AuthService {
-  constructor(@InjectRepository(User)
+
+  constructor(
+  @InjectRepository(User)
   private readonly userRepository: Repository<User>,
     private readonly jwtService: JwtService,
+  
   ) { }
+
   async create(createAuthDto: CreateUserDto) {
     try {
       const { password, ...userDate } = createAuthDto;
@@ -75,6 +79,7 @@ export class AuthService {
   }
 
   private getJwtToken(payload: JwtPayload) {
+    
     const token = this.jwtService.sign(payload);
     return token;
   }
